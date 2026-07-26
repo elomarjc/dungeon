@@ -19,7 +19,7 @@ class GameManualController extends GameComponent {
 
 
   @override
-  FutureOr<void> onLoad() async {
+  Future<void> onLoad() async {
 
     // var mapComponent = await TiledComponent.load(
     //     'dungeon.tmx',

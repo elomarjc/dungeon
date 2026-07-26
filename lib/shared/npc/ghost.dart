@@ -4,7 +4,7 @@ import 'package:warioddly/shared/worlds/dungeon.dart';
 import 'package:warioddly/shared/others/sprite_sheets/common_sprite_sheet.dart';
 import 'package:flutter/material.dart';
 
-class Ghost extends SimpleEnemy with BlockMovementCollision, AutomaticRandomMovement, UseLifeBar {
+class Ghost extends SimpleEnemy with BlockMovementCollision, RandomMovement, UseLifeBar {
 
   Ghost(Vector2 position) : super(
       animation: GhostSpriteSheet.simpleDirectionAnimation,
@@ -45,7 +45,7 @@ class Ghost extends SimpleEnemy with BlockMovementCollision, AutomaticRandomMove
               runRandomMovement(
                 dt,
                 speed: speed / 2,
-                maxDistance: (Dungeon.tileSize * 3).toInt(),
+                maxDistance: Dungeon.tileSize * 3,
               );
               return false;
             },
@@ -57,8 +57,8 @@ class Ghost extends SimpleEnemy with BlockMovementCollision, AutomaticRandomMove
   }
 
   @override
-  void die() {
-    super.die();
+  void onDie() {
+    super.onDie();
     gameRef.add(
       AnimatedGameObject(
         animation: GhostSpriteSheet.death,
@@ -73,7 +73,7 @@ class Ghost extends SimpleEnemy with BlockMovementCollision, AutomaticRandomMove
   void execAttackRange(double damage) {
     if (gameRef.player != null && gameRef.player?.isDead == true) return;
     simpleAttackRange(
-      animationRight: CommonSpriteSheet.fireBallRight,
+      animation: CommonSpriteSheet.fireBallRight,
       animationDestroy: CommonSpriteSheet.explosionAnimation,
       id: 35,
       size: Vector2.all(width * 0.9),

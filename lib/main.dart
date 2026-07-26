@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:bonfire/bonfire.dart';
+import 'package:bonfire/map/tiled/reader/tiled_asset_reader.dart';
 import 'package:warioddly/shared/decorations/crystal/blue_crystal.dart';
 import 'package:warioddly/shared/decorations/crystal/dark_red_crystal.dart';
 import 'package:warioddly/shared/decorations/crystal/green_crystal.dart';
@@ -48,40 +49,39 @@ class _HomePageState extends State<HomePage> {
     return MaterialApp(
       title: 'Warioddly',
       home: BonfireWidget(
-        joystick: Joystick(
-          keyboardConfig: KeyboardConfig(
-            acceptedKeys: [ LogicalKeyboardKey.space ],
-          ),
-          directional: JoystickDirectional(
-            spriteBackgroundDirectional: Sprite.load('joystick_background.png'),
-            spriteKnobDirectional: Sprite.load('joystick_knob.png'),
-            size: 100,
-            isFixed: false,
-          ),
-          actions: [
-            JoystickAction(
-              actionId: PlayerAttackType.attackMelee,
-              sprite: Sprite.load('joystick_attack.png'),
-              align: JoystickActionAlign.BOTTOM_RIGHT,
-              size: 80,
-              margin: const EdgeInsets.only(bottom: 50, right: 50),
+        playerControllers: [
+          Joystick(
+            directional: JoystickDirectional(
+              spriteBackgroundDirectional: Sprite.load('joystick_background.png'),
+              spriteKnobDirectional: Sprite.load('joystick_knob.png'),
+              size: 100,
+              isFixed: false,
             ),
-          ],
-        ),
+            actions: [
+              JoystickAction(
+                actionId: PlayerAttackType.attackMelee,
+                sprite: Sprite.load('joystick_attack.png'),
+                alignment: Alignment.bottomRight,
+                size: 80,
+                margin: const EdgeInsets.only(bottom: 50, right: 50),
+              ),
+            ],
+          ),
+          Keyboard(
+            config: KeyboardConfig(
+              acceptedKeys: [LogicalKeyboardKey.space],
+            ),
+          ),
+        ],
         debugMode: false,
         player: Wizard(Vector2(2000, 1350)),
         interface: PlayerInterface(),
-        // components: [
-        //   // ...Dungeon.enemies(),
-        //   // ...Dungeon.decorations(),
-        //   // GameManualController(),
-        // ],
         cameraConfig: CameraConfig(
           zoom: getZoomFromMaxVisibleTile(context, Dungeon.tileSize, 20),
           speed: 1.5,
         ),
         map: WorldMapByTiled(
-          'dungeon.tmj',
+          TiledAssetReader(asset: 'dungeon.tmj'),
           forceTileSize: Vector2.all(16),
           objectsBuilder: objectBuilder(),
         ),

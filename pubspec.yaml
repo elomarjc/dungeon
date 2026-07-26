@@ -35,6 +35,9 @@ dependencies:
   bonfire: ^3.0.9
   url_launcher: ^6.2.1
 
+dependency_overrides:
+  flame: ">=1.37.0 <1.38.0"
+
 
 dev_dependencies:
   flutter_test:
@@ -45,7 +48,7 @@ dev_dependencies:
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^2.0.0
+  flutter_lints: ^6.0.0
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

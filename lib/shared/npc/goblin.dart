@@ -4,7 +4,7 @@ import 'package:warioddly/shared/others/sprite_sheets/common_sprite_sheet.dart';
 import 'package:warioddly/shared/others/sprite_sheets/enemy_sprite_sheet.dart';
 import 'package:flutter/material.dart';
 
-class Goblin extends SimpleEnemy with BlockMovementCollision, AutomaticRandomMovement, UseLifeBar {
+class Goblin extends SimpleEnemy with BlockMovementCollision, RandomMovement, UseLifeBar {
 
   Goblin(Vector2 position)
       : super(
@@ -46,7 +46,7 @@ class Goblin extends SimpleEnemy with BlockMovementCollision, AutomaticRandomMov
               runRandomMovement(
                 dt,
                 speed: speed / 2,
-                maxDistance: (Dungeon.tileSize * 3).toInt(),
+                maxDistance: Dungeon.tileSize * 3,
               );
               return false;
             },
@@ -58,8 +58,8 @@ class Goblin extends SimpleEnemy with BlockMovementCollision, AutomaticRandomMov
   }
 
   @override
-  void die() {
-    super.die();
+  void onDie() {
+    super.onDie();
     gameRef.add(
       AnimatedGameObject(
         animation: CommonSpriteSheet.smokeExplosion,
@@ -74,7 +74,7 @@ class Goblin extends SimpleEnemy with BlockMovementCollision, AutomaticRandomMov
   void execAttackRange(double damage) {
     if (gameRef.player != null && gameRef.player?.isDead == true) return;
     simpleAttackRange(
-      animationRight: CommonSpriteSheet.fireBallRight,
+      animation: CommonSpriteSheet.fireBallRight,
       animationDestroy: CommonSpriteSheet.explosionAnimation,
       id: 35,
       size: Vector2.all(width * 0.9),
